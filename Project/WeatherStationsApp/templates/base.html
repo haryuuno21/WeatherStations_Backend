@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="rus" class="site">
+<head>
+    {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+  <meta charset="utf-8">
+    <title>Метеостанции Москвы</title>
+</head>
+<body>
+ <header class="header">
+    <div class="header_logo">
+        <a class="header_logo" href="../WeatherStations/">
+            <img src="{% static 'images/logo.png' %}">
+            <span id="header_logo_text">Метеостанции Москвы</span>
+        </a>
+    </div>
+        {% block header_extensions %}{% endblock %}
+ </header>
+ <div class="page_container">
+    {% block page %}{% endblock %}
+ </div>
+</body>
+</html>

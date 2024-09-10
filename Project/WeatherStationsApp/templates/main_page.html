@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block header_extensions %}
+<form action="set_filter" class = "search_bar" method="post" enctype="multipart/form-data">
+    <input class= "filter_text" placeholder="Название станции" name="filter_text" type="text">
+    <input class="button" type="submit" value="Поиск" >
+</form>
+{% endblock %}
+
+{% block page %}
+    <div class="stations_container">
+        {% for station in data.stations %}
+            {% include 'station_card.html' with element=station %}
+        {% endfor %}
+    </div>
+    <div class="order_card_container">
+        {% include 'order_card.html' %}
+    </div>
+{% endblock %}

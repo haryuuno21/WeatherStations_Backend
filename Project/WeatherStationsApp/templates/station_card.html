@@ -1,0 +1,10 @@
+<div class="station_card">
+    <a class = "station_information" href="../WeatherStations/">
+        <img  src="{{element.img_src}}" class="station_card_image">
+        <span class="station_card_title">{{element.title}}</span>
+    </a>
+    <span class="station_card_temperature">{{element.temperature}}</span>
+    <form action="Add_card" method="post" enctype="multipart/form-data">
+        <input class="button" type="button" value="Добавить" >
+    </form>
+</div>
