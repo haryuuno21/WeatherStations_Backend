@@ -8,7 +8,7 @@
 
 {% block page %}
     <div class="stations_container">
-        {% for station in data.stations %}
+        {% for station in stations %}
             {% include 'station_card.html' with element=station %}
         {% endfor %}
     </div>

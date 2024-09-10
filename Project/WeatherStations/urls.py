@@ -21,6 +21,6 @@ from WeatherStationsApp import views
 urlpatterns = [
     path('WeatherStations/', views.hello),
     path('admin/', admin.site.urls),
-    path('description/',views.description),
+    path('description/<int:id>',views.description),
     path('order/',views.orderInfo),
 ]

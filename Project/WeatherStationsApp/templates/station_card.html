@@ -1,7 +1,7 @@
 <div class="station_card">
-    <a class = "station_information" href="../WeatherStations/">
-        <img  src="{{element.img_src}}" class="station_card_image">
-        <span class="station_card_title">{{element.title}}</span>
+    <a class = "station_information" href="../WeatherStations/{{element.id}}">
+        <img  src="{{element.photo}}" class="station_card_image">
+        <span class="station_card_title">{{element.shortName}}</span>
     </a>
     <span class="station_card_temperature">{{element.temperature}}</span>
     <form action="Add_card" method="post" enctype="multipart/form-data">
