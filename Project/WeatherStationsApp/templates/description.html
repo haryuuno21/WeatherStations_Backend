@@ -2,22 +2,21 @@
 {% block page %}
     <div class="description_card">
         <div class="description_card_location">
-            <img id="description_photo" src='/static/images/1_1.png'>
-            <span>Метеостанция ВДНХ</span>
+            <img id="description_photo" src='{{photo}}'>
+            <span>{{fullName}}</span>
         </div>
         <div class="location_description">
             <div class="description_field_container">
                 <span class="bold">Адрес станции:</span>
-                <span class="thin">129223, г.Москва, ВДНХ, Проспект Мира, 
-                    вл.119,стр.423</span>
+                <span class="thin">{{adress}}</span>
             </div>
             <div class="description_field_container">
                 <span class="bold">ФИО начальника:</span>
-                <span class="thin">Никитина Светлана Александровна</span>
+                <span class="thin">{{chiefFIO}}</span>
             </div>
             <div class="description_field_container">
                 <span class="bold">Номер телефона станции:</span>
-                <span class="thin">8-499-760-36-95</span>
+                <span class="thin">{{phoneNumber}}</span>
             </div>
         </div>
     </div>

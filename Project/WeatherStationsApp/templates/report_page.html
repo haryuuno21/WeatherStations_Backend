@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block page %}
-    <div class="order_info_container">
+    <div class="report_info_container">
         <span class="bold">Регистрация температур</span>
-        <div class="order_info_content">
+        <div class="report_info_content">
             <span style="font-weight: 500;">Добавленные метеостанции:</span>
-            {% for station in data.stations %}
-                {% include 'order_content.html' with element=station %}
+            {% for station in stations %}
+                {% include 'report_content.html' with element=station %}
             {% endfor %}
             <form action="save_changes" method="post" enctype="multipart/form-data">
                 <input class="button" id="save_button" type="submit" value="Внести измерения" >

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block header_extensions %}
 <form action="set_filter" class = "search_bar" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
     <input class= "filter_text" placeholder="Название станции" name="filter_text" type="text">
     <input class="button" type="submit" value="Поиск" >
 </form>
@@ -12,7 +13,7 @@
             {% include 'station_card.html' with element=station %}
         {% endfor %}
     </div>
-    <div class="order_card_container">
-        {% include 'order_card.html' %}
+    <div class="report_card_container">
+        {% include 'report_card.html' with report=currentReport count=count%}
     </div>
 {% endblock %}

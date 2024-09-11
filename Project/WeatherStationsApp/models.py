@@ -20,4 +20,3 @@ class WeatherStation(models.Model):
                               fullName = fullName, adress = adress,
                               chiefFIO = chiefFIO, phoneNumber = phoneNumber)
         return station
-
