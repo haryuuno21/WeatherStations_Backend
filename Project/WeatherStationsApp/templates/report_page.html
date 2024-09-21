@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
 {% block page %}
     <div class="report_info_container">
-        <span class="bold">Регистрация температур</span>
+        <div class="report_page_title">
+            <span class="bold">Регистрация температур</span>
+            <div class="date_input_block">
+                <span>Дата:  </span>
+                <input class="report_date_input" value="{{report_date}}" name="text" type="text">
+            </div>
+        </div>
         <div class="report_info_content">
             <span style="font-weight: 500;">Добавленные метеостанции:</span>
             {% for station in stations %}
                 {% include 'report_content.html' with element=station %}
             {% endfor %}
-            <form action="save_changes" method="post" enctype="multipart/form-data">
-                <input class="button" id="save_button" type="submit" value="Внести измерения" >
-            </form>
         </div>
     </div>
 {% endblock %}

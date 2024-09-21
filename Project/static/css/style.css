@@ -18,6 +18,7 @@
 .page_container{
     width: 100%;
     display: flex;
+    justify-content: space-between;
 }
 
 body{
@@ -56,26 +57,27 @@ body{
     background: #DFE1E7;
 }
 .search_bar{
-
     border-color: #FFFFFF;
     border-width: 0;
     height: 36px;
+    margin-top: 40px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
     align-items: center;
     flex-wrap: nowrap;
-
 }
-
+.search_btn{
+    background: #FFFFFF;
+}
 .filter_text{
     border: none;
-    height: 28px;
+    height: 36px;
     border-radius: 6px;
     margin: 4px 5px;
     padding: 4px;
     padding-left: 12px;
-    background: #ECEEF2;
+    background: #FFFFFF;
     outline:none;
     font-family: Arial;
     font-size: 16px;
@@ -107,17 +109,29 @@ body{
     gap: 18px;
     flex-shrink: 0;
 }
-
+.station_card_sealevel{
+    width: 164px;
+    font-family: "Helvetica Neue";
+    text-align: center;
+    font-size: 16px;
+}
 .stations_container{
     display: flex;
-    width: 50%;
-    padding: 80px 130px 80px 130px;
-    justify-content: center;
+    width: 90%;
+    padding: 60px 0px 0px 150px;
+    justify-content: flex-start;
     align-items: flex-start;
     align-content: flex-start;
     gap: 40px;
     flex-shrink: 0;
     flex-wrap: wrap;
+}
+
+.stations_with_search{
+    width: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .station_information{
@@ -137,7 +151,7 @@ body{
     display: flex;
     width: auto;
     height: auto;
-    padding: 184px 67px 0px 68px;
+    padding: 40px 67px 0px 68px;
     flex-direction: column;
     align-items: center;
 }
@@ -236,10 +250,43 @@ body{
     height: 45px;
     padding-left: 15px;
     margin: 6px;
-    margin-right: 9px;
+    margin-right: 19px;
+    width: 230px;
 }
 #save_button{
     font-size: 20px;
     margin-left: 329px;
     margin-right: auto;
+}
+
+.report_content_image{
+    width: 164px;
+    height: 106px;
+    border-radius: 12px;
+    margin:16px
+}
+.report_content_station{
+    display: flex;
+    align-items: center;
+}
+
+.report_page_title{
+    display: flex;
+    gap:245px;   
+}
+
+.date_input_block{
+    display:flex;
+    background:#ECEEF2;
+    border-radius: 12px;
+    font-size: 24px;
+    padding: 12px;
+    align-items: center;
+    gap:20px;
+}
+.report_date_input{
+    border:none;
+    background:#ECEEF2;
+    font-size: 24px;
+    width: 120px;
 }

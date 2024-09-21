@@ -1,0 +1,10 @@
+
+Project/db.sqlite3
+Project/manage.py
+/Project/static/images
+Project/WeatherStations/__init__.py
+/Project/WeatherStations/__pycache__
+Project/WeatherStationsApp/__init__.py
+/Project/WeatherStationsApp/__pycache__
+Project/WeatherStationsApp/migrations/__init__.py
+/Project/WeatherStationsApp/migrations/__pycache__

@@ -1,4 +1,7 @@
 <div class="station_report">
-    <span style="margin-left: 15px">{{element.shortName}}</span>
-    <input class="temperature_input" placeholder={{element.temperature}} name="text" type="text">
+    <div class = "report_content_station">
+        <img  src="{{element.station.photo}}" class="report_content_image">
+        <span style="margin-left: 15px">{{element.station.shortName}}</span>
+    </div>
+    <input class="temperature_input" value="{{element.temperature}}" name="text" type="text">
 </div>

@@ -20,8 +20,6 @@ from WeatherStationsApp import views
 
 urlpatterns = [
     path('WeatherStations/', views.mainPage),
-    path('admin/', admin.site.urls),
     path('description/<int:id>',views.description),
     path('report/<int:id>',views.reportInfo),
-    path('WeatherStations/set_filter', views.setFilter),
 ]

@@ -1,17 +1,16 @@
 {% extends 'base.html' %}
-{% block header_extensions %}
-<form action="set_filter" class = "search_bar" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input class= "filter_text" placeholder="Название станции" name="filter_text" type="text">
-    <input class="button" type="submit" value="Поиск" >
-</form>
-{% endblock %}
 
 {% block page %}
-    <div class="stations_container">
-        {% for station in stations %}
-            {% include 'station_card.html' with element=station %}
-        {% endfor %}
+    <div class="stations_with_search">
+        <form class = "search_bar" method="get">
+            <input class= "filter_text" placeholder="{{filter}}" name="station_name" type="search">
+            <input class="button search_btn" type="submit" value="Поиск" >
+        </form>
+        <div class="stations_container">
+            {% for station in stations %}
+                {% include 'station_card.html' with element=station %}
+            {% endfor %}
+        </div>
     </div>
     <div class="report_card_container">
         {% include 'report_card.html' with report=currentReport count=count%}
