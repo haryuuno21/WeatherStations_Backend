@@ -7,6 +7,10 @@
                 <span>Дата:  </span>
                 <input class="report_date_input" value="{{report_date}}" name="text" type="text">
             </div>
+            <form method="POST" action="{% url 'delete_report' report.id %}">
+                {% csrf_token %}
+                <input type="image" id="bin_image" alt="Удалить" src="http://localhost:9000/weather-station-images/bin_icon.png">
+            </form>
         </div>
         <div class="report_info_content">
             <span style="font-weight: 500;">Добавленные метеостанции:</span>

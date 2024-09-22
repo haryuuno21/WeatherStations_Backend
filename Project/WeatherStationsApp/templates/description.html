@@ -2,21 +2,21 @@
 {% block page %}
     <div class="description_card">
         <div class="description_card_location">
-            <img id="description_photo" src='{{photo}}'>
-            <span>{{fullName}}</span>
+            <img id="description_photo" src='{{station.photo_url}}'>
+            <span>{{station.full_name}}</span>
         </div>
         <div class="location_description">
             <div class="description_field_container">
                 <span class="bold">Адрес станции:</span>
-                <span class="thin">{{adress}}</span>
+                <span class="thin">{{station.address}}</span>
             </div>
             <div class="description_field_container">
                 <span class="bold">ФИО начальника:</span>
-                <span class="thin">{{chiefFIO}}</span>
+                <span class="thin">{{station.chief_fio}}</span>
             </div>
             <div class="description_field_container">
                 <span class="bold">Номер телефона станции:</span>
-                <span class="thin">{{phoneNumber}}</span>
+                <span class="thin">{{station.phone_number}}</span>
             </div>
         </div>
     </div>

@@ -272,7 +272,9 @@ body{
 
 .report_page_title{
     display: flex;
-    gap:245px;   
+    gap:100px;  
+    align-items: center; 
+    justify-content: space-between;
 }
 
 .date_input_block{
@@ -289,4 +291,9 @@ body{
     background:#ECEEF2;
     font-size: 24px;
     width: 120px;
+}
+
+#bin_image{
+    background-color: #FFFFFF;
+    width: 80px;
 }
