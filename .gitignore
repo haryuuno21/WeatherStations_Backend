@@ -1,2 +1,5 @@
 
 /venv
+/WeatherStationsAPI/API/__pycache__
+/WeatherStationsAPI/WeatherStationsAPI/__pycache__
+
