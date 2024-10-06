@@ -21,7 +21,7 @@ from WeatherStationsApp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', views.mainPage),
+    path('', views.stationsPage),
     path('description/<int:id>',views.description),
     path('report/<int:id>',views.reportInfo),
     path('add-to-report/<int:station_id>', views.add_station_to_report, name="add_station_to_report"),
