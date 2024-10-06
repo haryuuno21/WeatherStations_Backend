@@ -2,6 +2,25 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 
+class AuthUser(models.Model):
+    password = models.CharField(max_length=128)
+    last_login = models.DateTimeField(blank=True, null=True)
+    is_superuser = models.BooleanField(default=False)
+    username = models.CharField(unique=True, max_length=150)
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
+    email = models.CharField(max_length=254)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.username
+    
+    class Meta:
+        managed = False
+        db_table = 'auth_user'
+
 class Station(models.Model):
     STATUS_CHOICES = [
     ("A", "Active"),
@@ -39,6 +58,7 @@ class Temperature_report(models.Model):
     completion_date = models.DateTimeField(null=True)
     creator_id = models.ForeignKey(User,related_name="reports_created", on_delete=models.SET_NULL, null=True)
     moderator_id = models.ForeignKey(User, related_name='reports_moderated', on_delete=models.SET_NULL, null=True)
+    average_temperature = models.IntegerField(default=0)
 
     objects = Temperature_report_manager()
 
