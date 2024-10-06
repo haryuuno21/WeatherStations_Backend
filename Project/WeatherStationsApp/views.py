@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest
 from WeatherStationsApp.models import Station, Station_report, Temperature_report
-from django.db import connection
+from django.db import connection, models 
 import datetime
 
 def add_station_to_report(request,station_id):
@@ -41,7 +41,14 @@ def description(request,id):
 
 
 def reportInfo(request,id):
-    report = get_object_or_404(Temperature_report,id = id)
+    try:
+        report = Temperature_report.objects.get(id=id)
+    except Temperature_report.DoesNotExist:
+        return redirect(stationsPage)
+    
+    if report is None or report.status == "Deleted":
+        return redirect(stationsPage)
+    
     stations = list()
     for station_report in Station_report.objects.filter(report_id = id):
         stations.append({'station':station_report.station_id,'temperature':station_report.temperature})

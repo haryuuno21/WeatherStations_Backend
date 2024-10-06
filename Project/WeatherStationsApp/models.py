@@ -33,11 +33,11 @@ class Temperature_report(models.Model):
     ("Rejected", "Rejected")
     ]
     status = models.CharField(max_length = 9,choices = STATUS_CHOICES, default="Draft")
-    report_date = models.DateField(default=now())
+    report_date = models.DateField(default=now(),null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     formation_date = models.DateTimeField(null=True)
     completion_date = models.DateTimeField(null=True)
-    creator_id = models.ForeignKey(User,related_name="reports_created", on_delete=models.SET_NULL, null=True)
+    creator_id = models.ForeignKey(User,related_name="reports_created", on_delete=models.SET_DEFAULT,default=0)
     moderator_id = models.ForeignKey(User, related_name='reports_moderated', on_delete=models.SET_NULL, null=True)
 
     objects = Temperature_report_manager()
