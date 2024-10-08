@@ -13,6 +13,7 @@ urlpatterns = [
     path('stations/<int:id>/add-to-report/',views.add_to_report,name='add-to-report'),
     path('reports/',views.get_reports,name='reports-list'),
     path('reports/<int:id>/',views.get_report,name='report-detail'),
+    path('reports/<int:id>/',views.put_report_info,name='put-report-info'),
     path('reports/<int:id>/form/',views.form_report,name='form-report'),
     path('reports/<int:id>/confirm/',views.confirm_report,name='confirm-report'),
     path('reports/<int:id>/delete/',views.delete_report,name='delete-report'),

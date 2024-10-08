@@ -114,6 +114,17 @@ def get_report(request, id, format=None):
     return Response(data)
 
 @api_view(['Put'])
+def put_report_info(request,id,format=None):
+    report = get_object_or_404(Temperature_report,id=id)
+    if report.status == 'Deleted':
+        return Response(data="report is deleted",status=status.HTTP_400_BAD_REQUEST)
+    report_date = request.data['report-date']
+    report_date = datetime.datetime.strptime(report_date,"%d.%m.%Y")
+    report.report_date = report_date
+    report.save()
+    return Response(status=status.HTTP_200_OK)
+
+@api_view(['Put'])
 def form_report(request,id,format=None):
     report = get_object_or_404(Temperature_report,id=id)
     if report.status == 'Deleted':
