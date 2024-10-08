@@ -42,6 +42,8 @@ class Station(models.Model):
 class Temperature_report_manager(models.Manager):
     def get_stations_count(self, report):
         return Temperature_report.objects.filter(id = report.id).annotate(count_stations = models.Count("station_report"))[0].count_stations
+    def get_average_temperature(self, report):
+        return Station_report.objects.filter(report_id = report.id).aggregate(models.Avg("temperature"))['temperature__avg']
 
 class Temperature_report(models.Model):
     STATUS_CHOICES = [
@@ -52,13 +54,13 @@ class Temperature_report(models.Model):
     ("Rejected", "Rejected")
     ]
     status = models.CharField(max_length = 9,choices = STATUS_CHOICES, default="Draft")
-    report_date = models.DateField(default=now())
+    report_date = models.DateField(default=now(),null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     formation_date = models.DateTimeField(null=True)
     completion_date = models.DateTimeField(null=True)
-    creator_id = models.ForeignKey(User,related_name="reports_created", on_delete=models.SET_NULL, null=True)
+    creator_id = models.ForeignKey(User,related_name="reports_created",  on_delete=models.SET_DEFAULT, default=0)
     moderator_id = models.ForeignKey(User, related_name='reports_moderated', on_delete=models.SET_NULL, null=True)
-    average_temperature = models.IntegerField(default=0)
+    average_temperature = models.IntegerField(null=True)
 
     objects = Temperature_report_manager()
 
