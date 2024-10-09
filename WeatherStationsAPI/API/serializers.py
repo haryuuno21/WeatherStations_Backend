@@ -28,7 +28,7 @@ class Temperature_reportsSerializer(serializers.ModelSerializer):
         model = Temperature_report
         fields = '__all__'
 
-class User_reportSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ['id','username']
+        model = AuthUser
+        fields = ['first_name','last_name','username','email','password']

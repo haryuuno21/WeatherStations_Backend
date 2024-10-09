@@ -83,7 +83,26 @@ class StationDetail(APIView):
         del_pic(station)
         return Response(status=status.HTTP_204_NO_CONTENT)
     
-
+class ReportDetail(APIView):
+    def get(self, request, id, format=None):
+        report = get_object_or_404(Temperature_report, id=id)
+        if report.status == 'Deleted':
+            return Response(data="report is deleted",status=status.HTTP_400_BAD_REQUEST)
+        stations_in_report = Station_report.objects.filter(report_id = report)
+        report_serializer = Temperature_reportSerializer(report)
+        stations_in_report_serializer = Station_reportSerializer(stations_in_report, many = True)
+        data = report_serializer.data | {'stations':stations_in_report_serializer.data}
+        return Response(data)
+    
+    def put(self, request, id, format=None):
+        report = get_object_or_404(Temperature_report,id=id)
+        if report.status == 'Deleted':
+            return Response(data="report is deleted",status=status.HTTP_400_BAD_REQUEST)
+        report_date = request.data['report-date']
+        report_date = datetime.datetime.strptime(report_date,"%d.%m.%Y")
+        report.report_date = report_date
+        report.save()
+        return Response(status=status.HTTP_200_OK)
 
 @api_view(['Get'])
 def get_reports(request, format=None):
@@ -92,7 +111,7 @@ def get_reports(request, format=None):
     end_date = request.GET.get("end-date")
     reports = Temperature_report.objects.exclude(status='Draft').exclude(status="Deleted")
     if(filter_status):
-        reports = reports.filter(status = filter_status)
+        reports = reports.filter(status = filter_status.capitalize())
     if(start_date):
         start_date = datetime.datetime.strptime(start_date,"%d.%m.%Y")
         reports = reports.filter(formation_date__gte = start_date)
@@ -101,28 +120,6 @@ def get_reports(request, format=None):
         reports = reports.filter(formation_date__lte = end_date)
     serializer = Temperature_reportsSerializer(reports, many=True)
     return Response(serializer.data)
-
-@api_view(['Get'])
-def get_report(request, id, format=None):
-    report = get_object_or_404(Temperature_report, id=id)
-    if report.status == 'Deleted':
-        return Response(data="report is deleted",status=status.HTTP_400_BAD_REQUEST)
-    stations_in_report = Station_report.objects.filter(report_id = report)
-    report_serializer = Temperature_reportSerializer(report)
-    stations_in_report_serializer = Station_reportSerializer(stations_in_report, many = True)
-    data = report_serializer.data | {'stations':stations_in_report_serializer.data}
-    return Response(data)
-
-@api_view(['Put'])
-def put_report_info(request,id,format=None):
-    report = get_object_or_404(Temperature_report,id=id)
-    if report.status == 'Deleted':
-        return Response(data="report is deleted",status=status.HTTP_400_BAD_REQUEST)
-    report_date = request.data['report-date']
-    report_date = datetime.datetime.strptime(report_date,"%d.%m.%Y")
-    report.report_date = report_date
-    report.save()
-    return Response(status=status.HTTP_200_OK)
 
 @api_view(['Put'])
 def form_report(request,id,format=None):
@@ -192,3 +189,48 @@ def add_to_report(request, id, format=None):
         station_report.save()
         return Response(status=status.HTTP_201_CREATED)
     return Response(data="station already added",status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['Delete'])
+def remove_from_report(request, id, format=None):
+    report = get_object_or_404(Temperature_report, id=id)
+    if report.status != 'Draft':
+        return Response(data="report is not in draft",status=status.HTTP_400_BAD_REQUEST)
+    station = get_object_or_404(Station, id = request.data['station-id'])
+    Station_report.objects.filter(report_id = report, station_id = station).delete()
+    return Response(status=status.HTTP_200_OK)
+
+@api_view(['Put'])
+def put_temperature(request, id, format=None):
+    report = get_object_or_404(Temperature_report, id=id)
+    if report.status != 'Draft':
+        return Response(data="report is not in draft",status=status.HTTP_400_BAD_REQUEST)
+    station = get_object_or_404(Station, id = request.data['station-id'])
+    station_report = get_object_or_404(Station_report, station_id = station, report_id = report)
+    station_report.temperature = request.data['temperature']
+    station_report.save()
+    return Response(status=status.HTTP_200_OK)
+    
+@api_view(['Post'])
+def registration(request, format=None):
+    serializer = UserSerializer(data = request.data)
+    if serializer.is_valid():
+        user = serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['Put'])
+def put_user(request, id, format=None):
+    station = get_object_or_404(User, id=id)
+    serializer = UserSerializer(station, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['Post'])
+def authentication(request, format=None):
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+@api_view(['Post'])
+def deauthorization(request,format=None):
+    return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
