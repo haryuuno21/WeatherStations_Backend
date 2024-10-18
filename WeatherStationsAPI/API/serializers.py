@@ -11,15 +11,15 @@ class Station_reportSerializer(serializers.ModelSerializer):
     photo_url = serializers.SerializerMethodField()
     short_name = serializers.SerializerMethodField()
     def get_photo_url(self, station_report):
-        station = Station.objects.get(id=1)
+        station = Station.objects.get(id=station_report.station_id.id)
         return station.photo_url
     
     def get_station_id(self, station_report):
-        station = Station.objects.get(id=1)
+        station = Station.objects.get(id=station_report.station_id.id)
         return station.id
     
     def get_short_name(self, station_report):
-        station = Station.objects.get(id=1)
+        station = Station.objects.get(id=station_report.station_id.id)
         return station.short_name
     
     class Meta:
