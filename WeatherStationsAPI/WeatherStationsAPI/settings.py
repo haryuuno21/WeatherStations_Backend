@@ -80,11 +80,11 @@ WSGI_APPLICATION = 'WeatherStationsAPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'weather_stations',
+        'NAME': 'weather_stations_API',
         'USER': 'Haryuuno',
         'PASSWORD': 'qwe123',
         'HOST': 'localhost',
-        'PORT': 32768,
+        'PORT': 32769,
     }
 }
 
@@ -132,8 +132,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Minio
 
-AWS_STORAGE_BUCKET_NAME = 'logo'
-AWS_ACCESS_KEY_ID = '1vl5je7NOPGKJhD8GVWM'
-AWS_SECRET_ACCESS_KEY = 'kT2OAGtGj623xkvWiM6jGg8UmHca8jx2F1IRZjQx'
+AWS_STORAGE_BUCKET_NAME = 'weather-stations-images'
+AWS_ACCESS_KEY_ID = 'EQHadOlreLymkEdRhkSs'
+AWS_SECRET_ACCESS_KEY = '0yiLOOwsPEGFGnVGLXBJL4vm6m0vwvygULRVo8pI'
 AWS_S3_ENDPOINT_URL = 'localhost:9000'
 MINIO_USE_SSL = False

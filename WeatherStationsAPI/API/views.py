@@ -37,19 +37,16 @@ class StationsList(APIView):
             stations = self.model_class.objects.filter(status = 'A')
         serializer = self.serializer_class(stations, many=True)
         if(not currentReport):
-            data = {"current_report":None,"stations":serializer.data}
+            data = {"current_report":None, "stations_count":0, "stations":serializer.data}
             return Response(data)
-        data = {"current_report":currentReport.id,"stations":serializer.data}
+        data = {"current_report":currentReport.id,"stations_count":Temperature_report.objects.get_stations_count(currentReport),
+                "stations":serializer.data}
         return Response(data)
 
     def post(self, request, format=None):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             station = serializer.save()
-            pic = request.FILES.get("pic")
-            pic_result = add_pic(station, pic)
-            if 'error' in pic_result.data:    
-                return pic_result
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -173,6 +170,7 @@ def post_pic(request, id, format=None):
     pic_result = add_pic(station, pic)
     if 'error' in pic_result.data:
         return pic_result
+    return Response(status=status.HTTP_200_OK)
 
 @api_view(['Post'])
 def add_to_report(request, id, format=None):
@@ -191,20 +189,20 @@ def add_to_report(request, id, format=None):
     return Response(data="station already added",status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['Delete'])
-def remove_from_report(request, id, format=None):
-    report = get_object_or_404(Temperature_report, id=id)
+def remove_from_report(request, report_id, station_id, format=None):
+    report = get_object_or_404(Temperature_report, id=report_id)
     if report.status != 'Draft':
         return Response(data="report is not in draft",status=status.HTTP_400_BAD_REQUEST)
-    station = get_object_or_404(Station, id = request.data['station-id'])
+    station = get_object_or_404(Station, id = station_id)
     Station_report.objects.filter(report_id = report, station_id = station).delete()
     return Response(status=status.HTTP_200_OK)
 
 @api_view(['Put'])
-def put_temperature(request, id, format=None):
-    report = get_object_or_404(Temperature_report, id=id)
+def put_temperature(request, report_id, station_id, format=None):
+    report = get_object_or_404(Temperature_report, id=report_id)
     if report.status != 'Draft':
         return Response(data="report is not in draft",status=status.HTTP_400_BAD_REQUEST)
-    station = get_object_or_404(Station, id = request.data['station-id'])
+    station = get_object_or_404(Station, id = station_id)
     station_report = get_object_or_404(Station_report, station_id = station, report_id = report)
     station_report.temperature = request.data['temperature']
     station_report.save()
