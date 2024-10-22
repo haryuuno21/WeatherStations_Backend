@@ -42,6 +42,34 @@ class Temperature_reportsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
+    is_staff = serializers.BooleanField(default=False, required=False)
+    is_superuser = serializers.BooleanField(default=False, required=False)
     class Meta:
-        model = AuthUser
-        fields = ['first_name','last_name','username','email','password']
+        model = CustomUser
+        fields = ['username','email','password','is_staff','is_superuser']
+    
+    def create(self, validated_data):
+        user = super().create(validated_data)
+        if 'password' in validated_data:
+            user.set_password(validated_data['password'])
+            user.save()
+        return user
+    def update(self,instance,validated_data):
+        user = super().update(instance,validated_data)
+        if 'password' in validated_data:
+            user.set_password(validated_data['password'])
+            user.save()
+        return user
+    
+class GETStationsSerializer(serializers.Serializer):
+    current_report = serializers.IntegerField(default = None)
+    stations_count = serializers.IntegerField(default = 0)
+    stations = StationSerializer(many=True)
+    class Meta:
+        fields = ['current_report','stations_count',"stations"]
+
+class AuthSerializer(serializers.Serializer):
+    username = serializers.StringRelatedField()
+    password = serializers.StringRelatedField()
+    class Meta:
+        fields = ['username','password']

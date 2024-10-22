@@ -39,9 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-
+    'drf_yasg',
     'API',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -80,7 +86,7 @@ WSGI_APPLICATION = 'WeatherStationsAPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'weather_stations',
+        'NAME': 'weather_stations_2',
         'USER': 'Haryuuno',
         'PASSWORD': 'qwe123',
         'HOST': 'localhost',
@@ -137,3 +143,10 @@ AWS_ACCESS_KEY_ID = 'p1zIsN29VFVv7MEXwhc4'
 AWS_SECRET_ACCESS_KEY = 'NfA5X9HKhbn5iwTIw2Z2UCqU5rrCNbZgBSVpQjKA'
 AWS_S3_ENDPOINT_URL = 'localhost:9000'
 MINIO_USE_SSL = False
+
+#AuthUser
+AUTH_USER_MODEL = 'API.CustomUser'
+
+#redis
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6380
