@@ -102,6 +102,7 @@ schema1 = openapi.Schema(title='report-date',type=openapi.TYPE_STRING,format=ope
 
 class ReportDetail(APIView):
     permission_classes = [IsAuthenticated]
+    
     @swagger_auto_schema(responses={200:Temperature_reportSerializer})
     def get(self, request, id, format=None):
         report = get_object_or_404(Temperature_report, id=id)
