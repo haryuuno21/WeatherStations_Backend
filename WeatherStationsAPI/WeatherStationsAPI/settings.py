@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
     'API',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -50,6 +51,8 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -90,7 +93,7 @@ DATABASES = {
         'USER': 'Haryuuno',
         'PASSWORD': 'qwe123',
         'HOST': 'localhost',
-        'PORT': 32768,
+        'PORT': 32769,
     }
 }
 
@@ -139,8 +142,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #Minio
 
 AWS_STORAGE_BUCKET_NAME = 'weather-stations-images'
-AWS_ACCESS_KEY_ID = 'p1zIsN29VFVv7MEXwhc4'
-AWS_SECRET_ACCESS_KEY = 'NfA5X9HKhbn5iwTIw2Z2UCqU5rrCNbZgBSVpQjKA'
+AWS_ACCESS_KEY_ID = 'XSSk9X6NxFEt0gxDQurJ'
+AWS_SECRET_ACCESS_KEY = 'BmLeuhDj3zhh8BFWObLk0XjvCoa3aYdS4Wn5FGnS'
 AWS_S3_ENDPOINT_URL = 'localhost:9000'
 MINIO_USE_SSL = False
 
