@@ -103,7 +103,7 @@ schema1 = openapi.Schema(title='report-date',type=openapi.TYPE_STRING,format=ope
 class ReportDetail(APIView):
     permission_classes = [IsAuthenticated]
     
-    @swagger_auto_schema(responses={200:Temperature_reportSerializer})
+    @swagger_auto_schema(responses={200:GETReportInfoSerializer})
     def get(self, request, id, format=None):
         report = get_object_or_404(Temperature_report, id=id)
         user = getUser(request)
@@ -138,7 +138,7 @@ end_date_param = openapi.Parameter('end-date', openapi.IN_QUERY, description="Ф
                                     type=openapi.TYPE_STRING,format=openapi.FORMAT_DATE)
 
 @swagger_auto_schema(manual_parameters=[status_param,start_date_param,end_date_param],
-                     method="Get",responses={200:Temperature_reportSerializer(many=True)})
+                     method="Get",responses={200:Temperature_reportsSerializer(many=True)})
 @api_view(['Get'])
 @permission_classes([IsAuthenticated])
 def get_reports(request, format=None):
@@ -251,7 +251,7 @@ def add_to_report(request, id, format=None):
     station_report, created = Station_report.objects.get_or_create(report_id = report, station_id = station)
     if created:
         station_report.save()
-        return Response("station added to report",status=status.HTTP_201_CREATED)
+        return Response(data={"currentReport":report.pk},status=status.HTTP_201_CREATED)
     return Response(data="station already added",status=status.HTTP_400_BAD_REQUEST)
 
 @swagger_auto_schema(method="Delete",responses={204:"station removed from report",400:"report is not in draft"})
@@ -296,12 +296,9 @@ def registration(request, format=None):
 @swagger_auto_schema(method='put',request_body=UserSerializer)
 @api_view(['Put'])
 @permission_classes([IsAuthenticated])
-def put_user(request, id, format=None):
-    user = get_object_or_404(CustomUser, id=id)
+def put_user(request, format=None):
+    user = getUser(request)
     serializer = UserSerializer(user, data=request.data, partial=True)
-    user_client = getUser(request)
-    if user != user_client and not user_client.is_staff:
-        return Response(status=status.HTTP_403_FORBIDDEN)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
@@ -322,7 +319,7 @@ def authentication(request, format=None):
     if user is not None:
         random_key = uuid.uuid4()
         session_storage.set(str(random_key), username)
-        response = Response(status=status.HTTP_200_OK)
+        response = Response(data={"userName":username,"userGroup":"watcher"},status=status.HTTP_200_OK)
         response.set_cookie("session_id", random_key)
         return response
     else:
@@ -333,4 +330,6 @@ def authentication(request, format=None):
 def deauthorization(request,format=None):
     ssid = request.COOKIES["session_id"]
     session_storage.delete(ssid)
-    return Response({'status': 'Success'})
+    response = Response({'status': 'Success'})
+    response.delete_cookie("session_id")
+    return response

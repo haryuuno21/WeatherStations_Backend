@@ -29,6 +29,7 @@ class Station_reportSerializer(serializers.ModelSerializer):
 class Temperature_reportSerializer(serializers.ModelSerializer):
     creator_id = serializers.StringRelatedField(read_only=True)
     moderator_id = serializers.StringRelatedField(read_only=True)
+    report_date = serializers.DateField(format='%d.%m.%Y')
     class Meta:
         model = Temperature_report
         fields = ['status','report_date','creation_date','formation_date','completion_date','creator_id',
@@ -37,16 +38,15 @@ class Temperature_reportSerializer(serializers.ModelSerializer):
 class Temperature_reportsSerializer(serializers.ModelSerializer):
     creator_id = serializers.StringRelatedField(read_only=True)
     moderator_id = serializers.StringRelatedField(read_only=True)
+    report_date = serializers.DateField(format='%d.%m.%Y')
     class Meta:
         model = Temperature_report
         fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):
-    is_staff = serializers.BooleanField(default=False, required=False)
-    is_superuser = serializers.BooleanField(default=False, required=False)
     class Meta:
         model = CustomUser
-        fields = ['username','email','password','is_staff','is_superuser']
+        fields = ['username','password','email']
     
     def create(self, validated_data):
         user = super().create(validated_data)
@@ -68,8 +68,27 @@ class GETStationsSerializer(serializers.Serializer):
     class Meta:
         fields = ['current_report','stations_count',"stations"]
 
-class AuthSerializer(serializers.Serializer):
-    username = serializers.StringRelatedField()
-    password = serializers.StringRelatedField()
+class GETReportInfoSerializer(serializers.Serializer):
+    status = serializers.CharField()
+    report_date = serializers.DateField(allow_null=True)
+    creation_date = serializers.DateTimeField()
+    formation_date = serializers.DateTimeField(allow_null=True)
+    completion_date = serializers.DateTimeField(allow_null=True)
+    creator_id = serializers.IntegerField()
+    moderator_id = serializers.IntegerField(allow_null=True)
+    average_temperature = serializers.IntegerField(allow_null=True)
+
+    stations = Station_reportSerializer(many=True)
+
     class Meta:
-        fields = ['username','password']
+        fields = [
+            'status',
+            'report_date',
+            'creation_date',
+            'formation_date',
+            'completion_date',
+            'creator_id',
+            'moderator_id',
+            'average_temperature',
+            'stations',
+        ]
